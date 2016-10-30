@@ -72,7 +72,7 @@ public class Notebook {
     }
 
     public void deleteNote(String name) {
-        notes.remove(getNode(name));
+        notes.remove(getNote(name));
     }
 
     public void deleteNote(int index) {
@@ -87,11 +87,15 @@ public class Notebook {
     }
 
     public void sortByAlphabet() {
-        notes.sort((note1, note2) -> Character.compare(note1.getHeader().charAt(0), note2.getHeader().charAt(0)));
+        notes.sort((note1, note2) 
+                -> Character.compare(note1.getHeader().charAt(0), 
+                                     note2.getHeader().charAt(0)));
     }
 
     public void sortByTextSize() {
-        notes.sort((note1, note2) -> Integer.compare(note1.getText().length(), note2.getText().length()));
+        notes.sort((note1, note2) 
+                -> Integer.compare(note1.getText().length(), 
+                                   note2.getText().length()));
     }
 
     public int getNoteCount() {
