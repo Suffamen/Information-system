@@ -6,30 +6,34 @@
 package informationsystem.models;
 
 /**
- *
  * @author Марат
  */
-public class Record {
+public class Note {
     private String header;
     private String text;
-    
-    public Record(String h, String t) {
+
+    public Note(String h, String t) {
         header = h;
         text = t;
     }
-    
+
+    public Note(String h) {
+        header = h;
+        text = "";
+    }
+
     public void setHeader(String newHeader) {
         header = newHeader;
     }
-    
+
     public void setText(String newText) {
         text = newText;
     }
-    
+
     public String getHeader() {
         return header;
     }
-    
+
     public String getText() {
         return text;
     }
