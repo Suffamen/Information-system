@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package informationsystem;
-
+import informationsystem.views.Frame;
 /**
  *
  * @author Марат
@@ -15,7 +15,8 @@ public class InformationSystem {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("42");
+        Frame mainWindow = new Frame();
+        mainWindow.setVisible(true);
     }
     
 }
