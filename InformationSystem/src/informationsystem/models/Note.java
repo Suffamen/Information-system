@@ -38,14 +38,14 @@ public class Notebook {
         return notes;
     }
 
-    public Note getNode(String name) {
+    public Note getNote(String name) {
         for (Note note : notes)
             if (note.getHeader() == name)
                 return note;
         return null;
     }
 
-    public Note getNode(int index) {
+    public Note getNote(int index) {
         return notes.get(index);
     }
 
@@ -54,20 +54,20 @@ public class Notebook {
         sortByAlphabet();
     }
 
-    public void addNotes(LinkedList<Note> nodes) {
-        nodes.addAll(nodes);
+    public void addNotes(LinkedList<Note> notes) {
+        this.notes.addAll(notes);
         sortByAlphabet();
     }
 
-    public void setNode(String name, Note newNote) {
-        getNode(name).setHeader(newNote.getHeader());
-        getNode(newNote.getHeader()).setText(newNote.getText());
+    public void setNote(String name, Note newNote) {
+        getNote(name).setHeader(newNote.getHeader());
+        getNote(newNote.getHeader()).setText(newNote.getText());
         sortByAlphabet();
     }
 
-    public void setNode(int index, Note newNote) {
-        getNode(index).setHeader(newNote.getHeader());
-        getNode(index).setText(newNote.getText());
+    public void setNote(int index, Note newNote) {
+        getNote(index).setHeader(newNote.getHeader());
+        getNote(index).setText(newNote.getText());
         sortByAlphabet();
     }
 
@@ -75,7 +75,7 @@ public class Notebook {
         notes.remove(getNode(name));
     }
 
-    public void deleteNode(int index) {
+    public void deleteNote(int index) {
 //        if (index < 0 || index > notes.size())
 //            throw new IndexOutOfBoundsException();
         notes.remove(index);
