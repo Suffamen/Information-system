@@ -3,11 +3,11 @@ package informationsystem.models;
 
 import java.util.Comparator;
 import java.util.LinkedList;
-
+import java.io.Serializable;
 /**
  * @author Марат
  */
-public class Notebook {
+public class Notebook implements Serializable{
     private String name;
     private LinkedList<Note> notes;
 
