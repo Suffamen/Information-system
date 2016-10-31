@@ -14,6 +14,7 @@ import java.io.*;
 public class NoteController {
     private ArrayList<Notebook> notebooks;
     
+    @SuppressWarnings("unchecked")
     public NoteController() {
         try (ObjectInputStream in = 
         new ObjectInputStream(new FileInputStream("notebooks.bin"))) {
@@ -49,5 +50,9 @@ public class NoteController {
         }
         
         return result;
+    }
+    
+    public String getNoteText(int indexOfNotebook, int indexOfNote) {
+        return notebooks.get(indexOfNotebook).getNote(indexOfNote).getText();
     }
 }
