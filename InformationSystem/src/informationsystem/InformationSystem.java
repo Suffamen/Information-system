@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package informationsystem;
-
+import informationsystem.controllers.NoteController;
+import java.io.*;
+import informationsystem.models.*;
+import java.util.*;
 /**
  *
  * @author Марат
@@ -15,7 +18,16 @@ public class InformationSystem {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("42");
+        ArrayList<Notebook> notebooks = new ArrayList<>();
+        ArrayList<Notebook> anotherList;
+        Notebook book;
+        for (int i = 0; i < 3; i++) {
+            book = new Notebook("Notebook "+i);
+            notebooks.add(book);
+        }
+        
+        NoteController controller = new NoteController();
+        System.out.println(Arrays.toString(controller.getArrayOfNotebooksNames()));
     }
     
 }

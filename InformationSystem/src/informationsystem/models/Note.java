@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 package informationsystem.models;
-
+import java.io.Serializable;
 /**
  * @author Марат
  */
-public class Note {
+public class Note implements Serializable{
     private String header;
     private String text;
 
