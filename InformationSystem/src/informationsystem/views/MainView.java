@@ -31,10 +31,10 @@ public class MainView extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        NotebookList = new javax.swing.JList<>();
+        notebookList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        NoteList = new javax.swing.JList<>();
-        TextField = new javax.swing.JTextField();
+        noteList = new javax.swing.JList<>();
+        textField = new javax.swing.JTextField();
         addNotebookButton = new javax.swing.JButton();
         editNotebookButton = new javax.swing.JButton();
         deleteNotebookButton = new javax.swing.JButton();
@@ -49,24 +49,30 @@ public class MainView extends javax.swing.JFrame {
         setTitle("Information system");
         setAlwaysOnTop(true);
 
-        NotebookList.setModel(new javax.swing.AbstractListModel<String>() {
+        notebookList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = controller.getArrayOfNotebooksNames();
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        NotebookList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        NotebookList.setToolTipText("");
-        NotebookList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(NotebookList);
-
-        NoteList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        notebookList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        notebookList.setToolTipText("");
+        notebookList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        notebookList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                notebookListValueChanged(evt);
+            }
         });
-        jScrollPane2.setViewportView(NoteList);
+        jScrollPane1.setViewportView(notebookList);
 
-        TextField.setText("jTextField1");
+        noteList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                noteListValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(noteList);
+
+        textField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        textField.setToolTipText("");
 
         addNotebookButton.setText("Add");
 
@@ -111,7 +117,7 @@ public class MainView extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)))
+                            .addComponent(textField, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(addNoteButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -130,7 +136,7 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(TextField)
+                    .addComponent(textField)
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -153,6 +159,23 @@ public class MainView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void notebookListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_notebookListValueChanged
+        // TODO add your handling code here:
+        noteList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = controller.getArrayOfNotesHeaders(
+                    notebookList.getSelectedIndex());
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        textField.setText("");
+    }//GEN-LAST:event_notebookListValueChanged
+
+    private void noteListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_noteListValueChanged
+        // TODO add your handling code here:
+        if (noteList.getSelectedIndex() != -1)
+            textField.setText(controller.getNoteText(notebookList.getSelectedIndex(), noteList.getSelectedIndex()));
+    }//GEN-LAST:event_noteListValueChanged
+
     /**
      * @param args the command line arguments
      */
@@ -166,9 +189,6 @@ public class MainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> NoteList;
-    private javax.swing.JList<String> NotebookList;
-    private javax.swing.JTextField TextField;
     private javax.swing.JButton addNoteButton;
     private javax.swing.JButton addNotebookButton;
     private javax.swing.JButton deleteNoteButton;
@@ -180,5 +200,8 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> noteList;
+    private javax.swing.JList<String> notebookList;
+    private javax.swing.JTextField textField;
     // End of variables declaration//GEN-END:variables
 }

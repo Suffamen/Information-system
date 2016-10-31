@@ -19,11 +19,29 @@ public class InformationSystem {
      */
     public static void main(String[] args) {
         ArrayList<Notebook> notebooks = new ArrayList<>();
-        ArrayList<Notebook> anotherList;
-        Notebook book;
-        for (int i = 0; i < 3; i++) {
-            book = new Notebook("Notebook "+i);
-            notebooks.add(book);
+        
+        LinkedList<Note> notes = new LinkedList<>();
+        notes.add(new Note("Eggs", "Buy some eggs to breakfast"));
+        notes.add(new Note("Laundry", "Wash clothes at Tuesday"));
+        notes.add(new Note("Cleaning", "Monday: Dad\n"
+                + "Tuesday: Mom\nWednesday: Ann\nThursday: Me\nFriday: Mom"));
+        notebooks.add(new Notebook("Home", notes));
+        
+        notes = new LinkedList<>();
+        notes.add(new Note("Boss checking", "Work harder at 3p.m."));
+        notes.add(new Note("Fridge", "Eat Pete's dinner"));
+        notebooks.add(new Notebook("Work", notes));
+        
+        notes = new LinkedList<>();
+        notes.add(new Note("Saturday", "Go to concert at 10p.m."));
+        notes.add(new Note("Sunday", "Chilling at home"));
+        notebooks.add(new Notebook("Holidays", notes));
+        
+        try (ObjectOutputStream out = 
+        new ObjectOutputStream(new FileOutputStream("notebooks.bin"))) {
+            out.writeObject(notebooks);
+        } catch (IOException e) {
+            
         }
         
         NoteController controller = new NoteController();
