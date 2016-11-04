@@ -5,7 +5,7 @@
  */
 package informationsystem;
 
-import informationsystem.controllers.NotebookListController;
+import informationsystem.controllers.Controller;
 
 import java.io.*;
 
@@ -48,7 +48,7 @@ public class InformationSystem {
 
         }
 
-        NotebookListController controller = new NotebookListController();
+        Controller controller = new Controller();
         System.out.println(Arrays.toString(controller.getArrayOfNotebookNames()));
     }
 
