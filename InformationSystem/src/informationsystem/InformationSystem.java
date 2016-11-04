@@ -4,12 +4,16 @@
  * and open the template in the editor.
  */
 package informationsystem;
-import informationsystem.controllers.NoteController;
+
+import informationsystem.controllers.Controller;
+
 import java.io.*;
+
 import informationsystem.models.*;
+
 import java.util.*;
+
 /**
- *
  * @author Марат
  */
 public class InformationSystem {
@@ -19,33 +23,33 @@ public class InformationSystem {
      */
     public static void main(String[] args) {
         ArrayList<Notebook> notebooks = new ArrayList<>();
-        
-        LinkedList<Note> notes = new LinkedList<>();
+
+        ArrayList<Note> notes = new ArrayList<>();
         notes.add(new Note("Eggs", "Buy some eggs to breakfast"));
         notes.add(new Note("Laundry", "Wash clothes at Tuesday"));
         notes.add(new Note("Cleaning", "Monday: Dad\n"
                 + "Tuesday: Mom\nWednesday: Ann\nThursday: Me\nFriday: Mom"));
         notebooks.add(new Notebook("Home", notes));
-        
-        notes = new LinkedList<>();
+
+        notes = new ArrayList<>();
         notes.add(new Note("Boss checking", "Work harder at 3p.m."));
         notes.add(new Note("Fridge", "Eat Pete's dinner"));
         notebooks.add(new Notebook("Work", notes));
-        
-        notes = new LinkedList<>();
+
+        notes = new ArrayList<>();
         notes.add(new Note("Saturday", "Go to concert at 10p.m."));
         notes.add(new Note("Sunday", "Chilling at home"));
         notebooks.add(new Notebook("Holidays", notes));
-        
-        try (ObjectOutputStream out = 
-        new ObjectOutputStream(new FileOutputStream("notebooks.bin"))) {
+
+        try (ObjectOutputStream out =
+                     new ObjectOutputStream(new FileOutputStream("notebooks.bin"))) {
             out.writeObject(notebooks);
         } catch (IOException e) {
-            
+
         }
-        
-        NoteController controller = new NoteController();
-        System.out.println(Arrays.toString(controller.getArrayOfNotebooksNames()));
+
+        Controller controller = new Controller();
+        System.out.println(Arrays.toString(controller.getArrayOfNotebookNames()));
     }
-    
+
 }
