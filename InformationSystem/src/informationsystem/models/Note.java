@@ -5,6 +5,7 @@
  */
 package informationsystem.models;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -41,11 +42,24 @@ public class Note implements Serializable {
         lastEdited = new Date(System.currentTimeMillis());
     }
 
+    public String getCreateDate() {
+        return created.toString();
+    }
+
+    public String getEditedData(){
+        return lastEdited.toString();
+    }
+
     public String getHeader() {
         return header;
     }
 
     public String getText() {
         return text;
+    }
+
+    @Override
+    public String toString() {
+        return getHeader();
     }
 }
