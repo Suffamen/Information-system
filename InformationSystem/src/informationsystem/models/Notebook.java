@@ -1,20 +1,33 @@
 
 package informationsystem.models;
 
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.io.Serializable;
+import javax.swing.AbstractListModel;
 
 /**
  * @author Марат
  */
-public class Notebook implements Serializable {
+public class Notebook extends AbstractListModel implements Serializable  {
     private String name;
     private ArrayList<Note> notes;
 
     public Notebook(String name) {
         this.name = name;
         notes = new ArrayList<>();
+    }
+
+    @Override
+    public Object getElementAt(int index) {
+        return notes.get(index);
+    }
+
+    @Override
+    public int getSize() {
+        return notes.size();
     }
 
     public Notebook(String name, ArrayList<Note> notes) {
@@ -103,4 +116,8 @@ public class Notebook implements Serializable {
         return notes.size();
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
