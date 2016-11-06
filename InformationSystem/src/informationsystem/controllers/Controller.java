@@ -78,6 +78,23 @@ public class Controller {
                 }
             }
         });
+
+        notesView.getDeleteButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!notesView.getList().isSelectionEmpty()) {
+                    int response = JOptionPane.showConfirmDialog(frame, "Do you realy want to delete note?", "Deleting",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (response == 0) {
+                        notebooks.get(notebooksView.getList().getSelectedIndex()).deleteNote(
+                                notesView.getList().getSelectedIndex());
+                        updateFile();
+                        notesView.getList().setModel(
+                                new NoteListModel(notebooks.get(notebooksView.getList().getSelectedIndex()).getNotes()));
+                    }
+                }
+            }
+        });
     }
 
     public void notebookListSelectionChanged(ListSelectionEvent e) {
