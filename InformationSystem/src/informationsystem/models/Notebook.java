@@ -1,22 +1,36 @@
 
 package informationsystem.models;
 
-import java.util.Comparator;
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.io.Serializable;
+import javax.swing.AbstractListModel;
+
 /**
  * @author Марат
  */
-public class Notebook implements Serializable{
+public class Notebook extends AbstractListModel implements Serializable  {
     private String name;
-    private LinkedList<Note> notes;
+    private ArrayList<Note> notes;
 
     public Notebook(String name) {
         this.name = name;
-        notes = new LinkedList<>();
+        notes = new ArrayList<>();
     }
 
-    public Notebook(String name, LinkedList<Note> notes) {
+    @Override
+    public Object getElementAt(int index) {
+        return notes.get(index);
+    }
+
+    @Override
+    public int getSize() {
+        return notes.size();
+    }
+
+    public Notebook(String name, ArrayList<Note> notes) {
         this.name = name;
         this.notes = notes;
         sortByAlphabet();
@@ -34,7 +48,7 @@ public class Notebook implements Serializable{
         this.name = name;
     }
 
-    public LinkedList<Note> getNotes() {
+    public ArrayList<Note> getNotes() {
         return notes;
     }
 
@@ -49,12 +63,12 @@ public class Notebook implements Serializable{
         return notes.get(index);
     }
 
-    public void setNotes(LinkedList<Note> notes) {
+    public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
         sortByAlphabet();
     }
 
-    public void addNotes(LinkedList<Note> notes) {
+    public void addNotes(ArrayList<Note> notes) {
         this.notes.addAll(notes);
         sortByAlphabet();
     }
@@ -87,19 +101,23 @@ public class Notebook implements Serializable{
     }
 
     public void sortByAlphabet() {
-        notes.sort((note1, note2) 
-                -> Character.compare(note1.getHeader().charAt(0), 
-                                     note2.getHeader().charAt(0)));
+        notes.sort((note1, note2)
+                -> Character.compare(note1.getHeader().charAt(0),
+                note2.getHeader().charAt(0)));
     }
 
     public void sortByTextSize() {
-        notes.sort((note1, note2) 
-                -> Integer.compare(note1.getText().length(), 
-                                   note2.getText().length()));
+        notes.sort((note1, note2)
+                -> Integer.compare(note1.getText().length(),
+                note2.getText().length()));
     }
 
     public int getNoteCount() {
         return notes.size();
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
