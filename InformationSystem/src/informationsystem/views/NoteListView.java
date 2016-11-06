@@ -14,6 +14,7 @@ public class NoteListView extends JPanel {
     private JLabel noteLabel;
     private JTextArea preview;
     private JLabel previewLabel;
+    private JScrollPane previewScroll;
 
     public NoteListView() {
         initComponents();
@@ -40,6 +41,8 @@ public class NoteListView extends JPanel {
         preview = new JTextArea();
         previewLabel = new JLabel("Preview");
         previewLabel.setAlignmentX(LEFT_ALIGNMENT);
+        previewScroll = new JScrollPane();
+        previewScroll.setViewportView(preview);
 
         listPanel.add(noteLabel);
         listPanel.add(scroll);
@@ -47,7 +50,7 @@ public class NoteListView extends JPanel {
         listPanel.add(editNoteButton);
         listPanel.add(deleteNoteButton);
         previewPanel.add(previewLabel);
-        previewPanel.add(preview);
+        previewPanel.add(previewScroll);
         add(listPanel);
         add(previewPanel);
     }
@@ -59,4 +62,10 @@ public class NoteListView extends JPanel {
     public JTextArea getPreview() {
         return preview;
     }
+
+    public JButton getAddButton() { return addNoteButton; }
+
+    public JButton getEditButton() { return editNoteButton; }
+
+    public JButton getDeleteButton() { return deleteNoteButton; }
 }

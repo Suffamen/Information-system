@@ -55,23 +55,41 @@ public class Controller {
                 notebookListSelectionChanged(e);
             }
         });
+
         notesView.getList().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 noteListSelectionChanged(e);
             }
         });
+
+        notesView.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!notebooksView.getList().isSelectionEmpty()) {
+                    String header = JOptionPane.showInputDialog(frame, "Write header of new note");
+                    if (!header.isEmpty()) {
+                        String text = JOptionPane.showInputDialog(frame, "Write text of new note");
+                        notebooks.get(notebooksView.getList().getSelectedIndex()).addNote(new Note(header, text));
+                        updateFile();
+                        notesView.getList().setModel(
+                                new NoteListModel(notebooks.get(notebooksView.getList().getSelectedIndex()).getNotes()));
+                    }
+                }
+            }
+        });
     }
 
     public void notebookListSelectionChanged(ListSelectionEvent e) {
+        notesView.getList().setSelectedIndex(-1);
+        notesView.getPreview().setText("");
         notesView.getList().setModel(new NoteListModel(
                 notebooks.get(notebooksView.getList().getSelectedIndex()).getNotes()));
     }
 
     public void noteListSelectionChanged(ListSelectionEvent e) {
-        notesView.getPreview().setText("");
-        notesView.getList().setSelectedIndex(-1);
-        notesView.getPreview().setText(getNoteText(
+        if (!notesView.getList().isSelectionEmpty())
+            notesView.getPreview().setText(getNoteText(
                 notebooksView.getList().getSelectedIndex(), notesView.getList().getSelectedIndex()));
         //noteInfo.setText(getNoteDate(notebookList.getSelectedIndex(), noteList.getSelectedIndex()));
     }
