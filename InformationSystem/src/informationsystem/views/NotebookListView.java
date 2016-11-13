@@ -1,12 +1,14 @@
 package informationsystem.views;
 
+import informationsystem.models.NoteListModel;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by рм on 05.11.2016.
  */
-public class NotebookListView extends JPanel {
+public class NotebookListView extends JPanel implements SetModelable {
     private JScrollPane scroll;
     private JList notebookList;
     private JButton addNotebookButton;
@@ -25,13 +27,9 @@ public class NotebookListView extends JPanel {
         layout.setAutoCreateContainerGaps(true);
 
         label = new JLabel("Notebooks");
-        label.setAlignmentX(LEFT_ALIGNMENT);
         addNotebookButton = new JButton("Add");
-        addNotebookButton.setAlignmentX(LEFT_ALIGNMENT);
         deleteNotebookButton = new JButton("Delete");
-        deleteNotebookButton.setAlignmentX(LEFT_ALIGNMENT);
         editNotebookButton = new JButton("Edit");
-        editNotebookButton.setAlignmentX(LEFT_ALIGNMENT);
         scroll = new JScrollPane();
         notebookList = new JList();
         scroll.setViewportView(notebookList);
@@ -47,5 +45,9 @@ public class NotebookListView extends JPanel {
 
     public JList getList() {
         return notebookList;
+    }
+    @Override
+    public void setModel(Object noteListModel){
+        notebookList.setModel((NoteListModel)noteListModel);
     }
 }

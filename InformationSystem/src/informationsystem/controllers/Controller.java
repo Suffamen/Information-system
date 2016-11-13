@@ -23,10 +23,11 @@ public class Controller {
     private JFrame frame;
     private NotebookListView notebooksView;
     private NoteListView notesView;
+    private NotePreviewView notesPreviewView;
 
     public Controller() {
         try (ObjectInputStream in =
-                     new ObjectInputStream(new FileInputStream("notebooks.bin"))) {
+                     new ObjectInputStream(new FileInputStream("notebooks1.bin"))) {
             notebooks = (ArrayList<Notebook>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
         }
@@ -36,10 +37,12 @@ public class Controller {
         notebooksView = new NotebookListView();
         notebooksView.getList().setModel(new NotebookListModel(notebooks));
         notesView = new NoteListView();
+        notesPreviewView = new NotePreviewView();
 
         mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.X_AXIS));
         mainPane.add(notebooksView);
         mainPane.add(notesView);
+        mainPane.add(notesPreviewView);
 
         frame.setContentPane(mainPane);
         setListeners();
@@ -81,32 +84,33 @@ public class Controller {
             }
         });
 
-        notesView.getPreview().getDocument().addDocumentListener(new DocumentListener() {
+        notesPreviewView.getPreview().getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                if (notesView.getPreview().hasFocus())
-                    notesView.getQuickEditNodeButton().setEnabled(true);
+                if (notesPreviewView.getPreview().hasFocus())
+                    notesPreviewView.getQuickEditNodeButton().setEnabled(true);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                if (notesView.getPreview().hasFocus())
-                    notesView.getQuickEditNodeButton().setEnabled(true);
+                if (notesPreviewView.getPreview().hasFocus())
+                    notesPreviewView.getQuickEditNodeButton().setEnabled(true);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                if (notesView.getPreview().hasFocus())
-                    notesView.getQuickEditNodeButton().setEnabled(true);
+                if (notesPreviewView.getPreview().hasFocus())
+                    notesPreviewView.getQuickEditNodeButton().setEnabled(true);
             }
         });
 
-        notesView.getQuickEditNodeButton().addActionListener(new ActionListener() {
+        notesPreviewView.getQuickEditNodeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 notebooks.get(notebooksView.getList().getSelectedIndex()).getNote(notesView.getList().getSelectedIndex())
-                        .setText(notesView.getPreview().getText());
-                notesView.getQuickEditNodeButton().setEnabled(false);
+                        .setText(notesPreviewView.getPreview().getText());
+                notesPreviewView.getQuickEditNodeButton().setEnabled(false);
+                updateFile();
             }
         });
     }
@@ -114,16 +118,16 @@ public class Controller {
 
     public void notebookListSelectionChanged(ListSelectionEvent e) {
         notesView.getList().setSelectedIndex(-1);
-        notesView.getPreview().setText("");
+        notesPreviewView.getPreview().setText("");
         notesView.getList().setModel(new NoteListModel(
                 notebooks.get(notebooksView.getList().getSelectedIndex()).getNotes()));
     }
 
     public void noteListSelectionChanged(ListSelectionEvent e) {
         if (!notesView.getList().isSelectionEmpty())
-            notesView.getPreview().setText(getNoteText(
+            notesPreviewView.getPreview().setText(getNoteText(
                     notebooksView.getList().getSelectedIndex(), notesView.getList().getSelectedIndex()));
-        //noteInfo.setText(getNoteDate(notebookList.getSelectedIndex(), noteList.getSelectedIndex()));
+        notesPreviewView.getDataLabel().setText(getNoteDate(notebooksView.getList().getSelectedIndex(), notesView.getList().getSelectedIndex()));
     }
 
     private void updateFile() {
@@ -139,8 +143,8 @@ public class Controller {
     }
 
     private String getNoteDate(int indexOfNotebook, int indexOfNote) {
-        return "Crated " + notebooks.get(indexOfNotebook).getNote(indexOfNote).getCreateDate() +
-                "Last edited " + notebooks.get(indexOfNotebook).getNote(indexOfNote).getCreateDate();
+        return "<html>Created " + notebooks.get(indexOfNotebook).getNote(indexOfNote).getCreateDate() + "<br>" +
+                "Last edited " + notebooks.get(indexOfNotebook).getNote(indexOfNote).getEditDate() + "</html>";
     }
 
     private void sortByAlphabet() {

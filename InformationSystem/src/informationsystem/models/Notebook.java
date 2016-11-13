@@ -11,13 +11,17 @@ import javax.swing.AbstractListModel;
 /**
  * @author Марат
  */
-public class Notebook extends AbstractListModel implements Serializable  {
+public class Notebook extends AbstractListModel implements Serializable {
     private String name;
     private ArrayList<Note> notes;
+    private int id;
+    private ArrayList<Integer>  noteIDs;
 
     public Notebook(String name) {
         this.name = name;
         notes = new ArrayList<>();
+        id = createID();
+        noteIDs = new ArrayList<>();
     }
 
     @Override
@@ -29,14 +33,11 @@ public class Notebook extends AbstractListModel implements Serializable  {
     public int getSize() {
         return notes.size();
     }
-
-    public Notebook(String name, ArrayList<Note> notes) {
-        this.name = name;
-        this.notes = notes;
-        sortByAlphabet();
-    }
-
-//    public Notebook(String name, Note... notes) {
+//
+//    public Notebook(String name, ArrayList<Note> notes) {
+//        this.name = name;
+//        this.notes = notes;
+//        sortByAlphabet();
 //
 //    }
 
@@ -63,21 +64,26 @@ public class Notebook extends AbstractListModel implements Serializable  {
         return notes.get(index);
     }
 
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
+    public void addNote(Note note) {
+        notes.add(note);
+        noteIDs.add(note.getID());
         sortByAlphabet();
     }
+//    public void setNotes(ArrayList<Note> notes) {
+//        this.notes = notes;
+//        sortByAlphabet();
+//    }
+//
+//    public void addNotes(ArrayList<Note> notes) {
+//        this.notes.addAll(notes);
+//        sortByAlphabet();
+//    }
 
-    public void addNotes(ArrayList<Note> notes) {
-        this.notes.addAll(notes);
-        sortByAlphabet();
-    }
-
-    public void setNote(String name, Note newNote) {
-        getNote(name).setHeader(newNote.getHeader());
-        getNote(newNote.getHeader()).setText(newNote.getText());
-        sortByAlphabet();
-    }
+//    public void setNote(String name, Note newNote) {
+//        getNote(name).setHeader(newNote.getHeader());
+//        getNote(newNote.getHeader()).setText(newNote.getText());
+//        sortByAlphabet();
+//    }
 
     public void setNote(int index, Note newNote) {
         getNote(index).setHeader(newNote.getHeader());
@@ -95,9 +101,11 @@ public class Notebook extends AbstractListModel implements Serializable  {
         notes.remove(index);
     }
 
-    public void addNote(Note note) {
-        notes.add(note);
-        sortByAlphabet();
+
+    private static int idCounter = 0;
+
+    public static synchronized int createID() {
+        return idCounter++;
     }
 
     public void sortByAlphabet() {

@@ -7,7 +7,10 @@ package informationsystem.models;
 
 import javax.swing.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import static java.util.UUID.randomUUID;
 
 /**
  * @author Марат
@@ -15,38 +18,45 @@ import java.util.Date;
 public class Note implements Serializable {
     private String header;
     private String text;
-    private Date lastEdited;
-    private Date created;
+    private String lastEdited;
+    private String created;
+    private int id;
 
-    public Note(String h, String t) {
-        header = h;
-        text = t;
-        created = new Date(System.currentTimeMillis());
+    public Note(String header, String text) {
+        this.header = header;
+        this.text = text;
+        created = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy").format(Calendar.getInstance().getTime());
         lastEdited = created;
+        id = createID();
     }
 
-    public Note(String h) {
-        header = h;
+    public int getID() {
+        return id;
+    }
+
+    public Note(String header) {
+        this.header = header;
         text = "";
-        created = new Date(System.currentTimeMillis());
+        created = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy").format(Calendar.getInstance().getTime());
         lastEdited = created;
+        id = createID();
     }
 
     public void setHeader(String newHeader) {
         header = newHeader;
-        lastEdited = new Date(System.currentTimeMillis());
+        lastEdited = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy").format(Calendar.getInstance().getTime());
     }
 
     public void setText(String newText) {
         text = newText;
-        lastEdited = new Date(System.currentTimeMillis());
+        lastEdited = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy").format(Calendar.getInstance().getTime());
     }
 
     public String getCreateDate() {
         return created.toString();
     }
 
-    public String getEditedData(){
+    public String getEditDate() {
         return lastEdited.toString();
     }
 
@@ -61,5 +71,11 @@ public class Note implements Serializable {
     @Override
     public String toString() {
         return getHeader();
+    }
+
+    private static int idCounter = 0;
+
+    public static synchronized int createID() {
+        return idCounter++;
     }
 }
